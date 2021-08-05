@@ -1,12 +1,16 @@
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
 	id SERIAL PRIMARY KEY,
   username TEXT UNIQUE,
 	password_hash TEXT
 );
 
-CREATE TYPE room_status AS ENUM ('public', 'private');
+DO $$ BEGIN
+    CREATE TYPE room_status AS ENUM ('public', 'private');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
-CREATE TABLE rooms (
+CREATE TABLE IF NOT EXISTS rooms (
   id SERIAL PRIMARY KEY,
   name TEXT,
   description TEXT,
@@ -15,19 +19,19 @@ CREATE TABLE rooms (
   user_id INTEGER REFERENCES users
 );
 
-CREATE TABLE room_admins (
+CREATE TABLE IF NOT EXISTS room_admins (
   user_id INTEGER REFERENCES users,
   room_id INTEGER REFERENCES rooms
 );
 
-CREATE TABLE threads (
+CREATE TABLE IF NOT EXISTS threads (
   id SERIAL PRIMARY KEY,
   name TEXT,
   room_id INTEGER REFERENCES rooms,
   created_at TIMESTAMP
 );
 
-CREATE TABLE messages (
+CREATE TABLE IF NOT EXISTS messages (
   id SERIAL PRIMARY KEY,
   content TEXT,
   thread_id INTEGER REFERENCES threads,
