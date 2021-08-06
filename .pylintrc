@@ -1,0 +1,11 @@
+[MY SECTION]
+
+disable=missing-module-docstring,
+        missing-function-docstring,
+        import-error,
+        cyclic-import,
+        bare-except,
+        unused-import,
+        wrong-import-position,
+ignored-classes=scoped_session
+
