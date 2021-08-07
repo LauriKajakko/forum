@@ -1,6 +1,21 @@
-{% extends "./layouts/layout.html" %}
+{% extends "./layouts/main.html" %}
 {% block title %}Etusivu{% endblock %}
 {% block content %}
 <h2>Etusivu</h2>
 Tervetuloa sovellukseen!
+{% if session.username %}
+Olet kirjautunut nimellä {{ session.username }}
+<hr>
+<h4>Luo huone</h4>
+<form action="/rooms" method="POST">
+Huoneen nimi: <input type="text" name="name"><br>
+Huoneen kuvaus: <textarea name="description"></textarea><br>
+<input type="radio" name="status" value="public">
+<label for="html">yksityinen</label><br>
+<input type="radio" name="status" value="private">
+<label for="css">julkinen</label><br>
+
+<input type="submit" value="Lähetä">
+</form>
+{% endif %}
 {% endblock %}
