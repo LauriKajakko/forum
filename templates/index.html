@@ -8,14 +8,22 @@ Olet kirjautunut nimellä {{ session.username }}
 <hr>
 <h4>Luo huone</h4>
 <form action="/rooms" method="POST">
-Huoneen nimi: <input type="text" name="name"><br>
-Huoneen kuvaus: <textarea name="description"></textarea><br>
-<input type="radio" name="status" value="public">
-<label for="html">yksityinen</label><br>
-<input type="radio" name="status" value="private">
-<label for="css">julkinen</label><br>
+  Huoneen nimi: <input type="text" name="name"><br>
+  Huoneen kuvaus: <textarea name="description"></textarea><br>
 
-<input type="submit" value="Lähetä">
+  <input type="radio" name="status" value="private">
+  <label>yksityinen</label><br>
+
+  <input type="radio" name="status" value="public">
+  <label>julkinen</label><br>
+  <input type="submit" value="Lähetä">
 </form>
+{% for room in rooms %}
+<h4>{{ room.name }}</h4> <br>
+Luotu: {{ room.created_at.strftime("%Y-%m-%d %H:%M:%S") }} <br>
+{{ room.description }}<br>
+<hr>
+{% endfor %}
+
 {% endif %}
 {% endblock %}

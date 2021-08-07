@@ -1,10 +1,11 @@
 from flask import redirect, render_template, request, session
 from app import app
 import auth
+import rooms
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", rooms = rooms.get_rooms())
 
 @app.route("/error")
 def error():
@@ -28,6 +29,11 @@ def login():
             return redirect("/")
     return redirect("/")
 
+@app.route("/logout")
+def logout():
+    del session["username"]
+    return redirect("/")
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
@@ -43,7 +49,15 @@ def register():
             return redirect("/error?type=auth_sql")
     return redirect("/login")
 
-@app.route("/logout")
-def logout():
-    del session["username"]
-    return redirect("/")
+@app.route("/rooms", methods=["GET", "POST"])
+def room():
+    if request.method == "GET":
+        return render_template("forum/room.html")
+    if request.method == "POST":
+        name = request.form["name"]
+        description = request.form["description"]
+        status = request.form["status"]
+        success = rooms.create_room(name, description, status, session["user_id"])
+        if not success:
+            return redirect("/error?type=none")
+        return redirect("/")
