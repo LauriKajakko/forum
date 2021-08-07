@@ -7,6 +7,7 @@
 - Browse rooms created by other users
 - Send request to join a room
 - Create a new room
+- Search rooms
 
 #### Rooms
 
@@ -17,7 +18,7 @@
 - Send messages to threads in that room
 - Search messages in threads
 - (Room wide message search)
-- (Server side pagination)
+- (Server side pagination and filters)
 
 #### Users/Access control
 
