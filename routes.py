@@ -49,7 +49,7 @@ def register():
         success = auth.register(username, password)
         if not success:
             return redirect("/error?type=auth_sql")
-    return redirect("/login")
+    return redirect("/")
 
 @app.route("/rooms/<room_id>", methods=["GET"])
 def one_room(room_id):
