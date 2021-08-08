@@ -8,9 +8,10 @@
 2. create a room for yourself
 3. create a thread
 4. post messages
-5. do the same with another user to see how access control works *
+5. do the same with another user to see how access control works 
 
 * private rooms and invitations not yet implemented
+* Also forms aren't validated in any way yet
 
 ## Features
 
