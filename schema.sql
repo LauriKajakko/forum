@@ -35,5 +35,6 @@ CREATE TABLE IF NOT EXISTS messages (
   id SERIAL PRIMARY KEY,
   content TEXT,
   thread_id INTEGER REFERENCES threads,
+  user_id INTEGER REFERENCES users,
   created_at TIMESTAMP
 );

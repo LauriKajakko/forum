@@ -10,5 +10,22 @@
   <input type="submit" value="Tallenna">
 </form>
 {% endif %}
+<hr>
+<h2>Langat</h2>
+{% for thread in threads %}
+<h3>{{ thread.name }}</h3>
+{% for message in thread.messages %}
+<p>{{ message[0] }}</p>
+~ {{ message[1] }}
+<br>
+{% endfor %}
+<form action="/messages" method="POST">
+  Viesti: <textarea name="content"></textarea><br>
+  <input type="hidden" name="thread_id" value="{{ thread.id }}"><br>
+  <input type="hidden" name="room_id" value="{{ room.id }}"><br>
+  <input type="submit" value="Lähetä">
+</form>
+<hr>
+{% endfor %}
 
 {% endblock %}

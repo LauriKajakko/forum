@@ -3,6 +3,7 @@ from app import app
 import auth
 import rooms
 import threads
+import messages
 
 @app.route("/")
 def index():
@@ -53,10 +54,12 @@ def register():
 @app.route("/rooms/<room_id>", methods=["GET"])
 def one_room(room_id):
     room = rooms.get_room(room_id)
+    thread_list = threads.get_threads(room_id)
     return render_template(
         "forum/room.html",
         room = room,
-        admin = session["user_id"] == room.user_id
+        admin = session["user_id"] == room.user_id,
+        threads = thread_list
     )
 
 
@@ -84,4 +87,15 @@ def post_thread():
     if not success:
         return redirect("/error")
     return redirect("/rooms/" + str(room.id))
+
+@app.route("/messages", methods=["POST"])
+def post_message():
+    room_id = request.form["room_id"]
+    content = request.form["content"]
+    thread_id = request.form["thread_id"]
+    user_id = session["user_id"]
+    success = messages.create_message(content, thread_id, user_id)
+    if not success:
+        return redirect("/error")
+    return redirect("/rooms/" + room_id)
     
