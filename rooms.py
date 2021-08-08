@@ -1,9 +1,18 @@
-from flask import session
 from db import db
 
+def get_room(room_id):
+    try:
+        result = db.session.execute(
+        "SELECT * FROM rooms WHERE id=:id",
+        { "id": room_id }
+        )
+        return result.fetchone()
+    except:
+        return None
+
 def get_rooms():
-    result = db.session.execute("SELECT name, description, created_at FROM rooms WHERE status='public'")
-    return result.fetchall()    
+    result = db.session.execute("SELECT * FROM rooms WHERE status='public'")
+    return result.fetchall()
 
 def create_room(name, description, status, user_id):
     try:

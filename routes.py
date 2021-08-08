@@ -2,6 +2,7 @@ from flask import redirect, render_template, request, session
 from app import app
 import auth
 import rooms
+import threads
 
 @app.route("/")
 def index():
@@ -49,15 +50,38 @@ def register():
             return redirect("/error?type=auth_sql")
     return redirect("/login")
 
-@app.route("/rooms", methods=["GET", "POST"])
-def room():
-    if request.method == "GET":
-        return render_template("forum/room.html")
-    if request.method == "POST":
-        name = request.form["name"]
-        description = request.form["description"]
-        status = request.form["status"]
-        success = rooms.create_room(name, description, status, session["user_id"])
-        if not success:
-            return redirect("/error?type=none")
-        return redirect("/")
+@app.route("/rooms/<room_id>", methods=["GET"])
+def one_room(room_id):
+    room = rooms.get_room(room_id)
+    return render_template(
+        "forum/room.html",
+        room = room,
+        admin = session["user_id"] == room.user_id
+    )
+
+
+@app.route("/rooms", methods=["POST"])
+def post_room():
+    name = request.form["name"]
+    description = request.form["description"]
+    status = request.form["status"]
+    success = rooms.create_room(name, description, status, session["user_id"])
+    if not success:
+        return redirect("/error?type=none")
+    return redirect("/")
+
+@app.route("/threads", methods=["POST"])
+def post_thread():
+    name = request.form["name"]
+    room_id = request.form["room_id"]
+    user_id = session["user_id"]
+    room = rooms.get_room(room_id)
+    if room is None:
+        return redirect("/error")
+    if room.user_id != user_id:
+        return redirect("/error")
+    success = threads.create_thread(name, room_id)
+    if not success:
+        return redirect("/error")
+    return redirect("/rooms/" + str(room.id))
+    
