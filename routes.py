@@ -1,13 +1,14 @@
 from flask import redirect, render_template, request, session
 from app import app
 import auth
+import users
 import rooms
 import threads
 import messages
 
 @app.route("/")
 def index():
-    return render_template("index.html", rooms = rooms.get_rooms())
+    return render_template("index.html", rooms = rooms.get_public_rooms())
 
 @app.route("/error")
 def error():
@@ -62,6 +63,17 @@ def one_room(room_id):
         threads = thread_list
     )
 
+@app.route("/rooms/<room_id>/settings", methods=["GET"])
+def one_room_settings(room_id):
+    search = request.args.get("search")
+    room = rooms.get_room(room_id)
+    user_results = users.get_users_like(search)
+    return render_template(
+        "forum/room_settings.html",
+        room = room,
+        admin = session["user_id"] == room.user_id,
+        user_results = user_results,
+    )
 
 @app.route("/rooms", methods=["POST"])
 def post_room():
@@ -98,4 +110,10 @@ def post_message():
     if not success:
         return redirect("/error")
     return redirect("/rooms/" + room_id)
-    
+
+@app.route("/profile/<username>", methods=["GET"])
+def profile(username):
+    user = users.get_user_by_username(username)
+    if user is None:
+        return redirect("/error")
+    return render_template("profile.html", user = user)

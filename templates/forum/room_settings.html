@@ -1,0 +1,21 @@
+{% extends "layouts/main.html" %}
+{% block title %}{{ room.name }}{% endblock %}
+{% block content %}
+<h1>{{ room.name }}</h1>
+<h3>Luo uusi lanka</h3>
+<form action="/threads" method="POST">
+  Langan nimi: <input type="text" name="name"><br>
+  <input type="hidden" name="room_id" value="{{ room.id }}"><br>
+  <input type="submit" value="Tallenna">
+</form>
+<h3>Lisää käyttäjiä</h3>
+<form action="/rooms/{{ room.id}}/settings" method="GET">
+  Hae käyttäjiä käyttäjänimellä: <input type="text" name="search"><br>
+  <input type="submit" value="Hae">
+</form>
+<div>
+  {% for user in user_results %}
+    <div>{{ user.username}} <button>lisää</button></div>
+  {% endfor %}
+</div>
+{% endblock %}

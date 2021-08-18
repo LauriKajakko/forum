@@ -38,3 +38,8 @@ CREATE TABLE IF NOT EXISTS messages (
   user_id INTEGER REFERENCES users,
   created_at TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS private_room_members (
+  user_id INTEGER REFERENCES users,
+  room_id INTEGER REFERENCES rooms
+);

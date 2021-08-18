@@ -2,7 +2,13 @@
 <title>Forum - {% block title %}{% endblock %}</title>
 <h1>Forum</h1>
 <a href="/">Etusivu</a>
+{% if session.username %}
+<a href="/profile/{{ session.username }}">Profiili</a>
+<a href="/logout">Kirjaudu ulos</a>
+{% else %}
 <a href="/login">Kirjautuminen</a>
+<a href="/register">Rekisteröidy</a>
+{% endif %}
 <hr>
 {% block content %}{% endblock %}
 <hr>
