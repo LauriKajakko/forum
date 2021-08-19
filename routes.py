@@ -65,7 +65,7 @@ def one_room(room_id):
 
 @app.route("/rooms/<room_id>/settings", methods=["GET"])
 def one_room_settings(room_id):
-    search = request.args.get("search")
+    search = request.args.get("search") or ""
     room = rooms.get_room(room_id)
     user_results = users.get_users_like(search)
     return render_template(
@@ -73,6 +73,7 @@ def one_room_settings(room_id):
         room = room,
         admin = session["user_id"] == room.user_id,
         user_results = user_results,
+        search = search
     )
 
 @app.route("/rooms", methods=["POST"])

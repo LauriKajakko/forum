@@ -8,14 +8,18 @@
   <input type="hidden" name="room_id" value="{{ room.id }}"><br>
   <input type="submit" value="Tallenna">
 </form>
-<h3>Lisää käyttäjiä</h3>
-<form action="/rooms/{{ room.id}}/settings" method="GET">
-  Hae käyttäjiä käyttäjänimellä: <input type="text" name="search"><br>
+<h3>Lisää admin</h3>
+<form action="/rooms/{{ room.id }}/settings" method="GET">
+  Hae käyttäjiä käyttäjänimellä: <input value="{{ search }}"" type="text" name="search"><br>
   <input type="submit" value="Hae">
 </form>
 <div>
   {% for user in user_results %}
-    <div>{{ user.username}} <button>lisää</button></div>
+    <div>{{ user.username }} 
+    <form>
+      <input type="hidden" value="{{ user.id }}">
+      <input type="submit" value="Lisää">
+    </form>
   {% endfor %}
 </div>
 {% endblock %}

@@ -10,8 +10,10 @@
 {% for thread in threads %}
 <h3>{{ thread.name }}</h3>
 {% for message in thread.messages %}
-<p>{{ message[0] }}</p>
+<p>{{ message[0] or '' }}</p>
+{% if message[1] %}
 ~ {{ message[1] }}
+{% endif %}
 <br>
 {% endfor %}
 <form action="/messages" method="POST">
