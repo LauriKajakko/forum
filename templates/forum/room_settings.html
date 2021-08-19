@@ -16,8 +16,8 @@
 <div>
   {% for user in user_results %}
     <div>{{ user.username }} 
-    <form>
-      <input type="hidden" value="{{ user.id }}">
+    <form action="/rooms/{{ room.id }}/admins" method="POST">
+      <input type="hidden" name="user_to_add_id" value="{{ user.id }}">
       <input type="submit" value="Lisää">
     </form>
   {% endfor %}

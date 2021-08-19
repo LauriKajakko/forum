@@ -76,6 +76,20 @@ def one_room_settings(room_id):
         search = search
     )
 
+@app.route("/rooms/<room_id>/admins", methods=["POST"])
+def admins(room_id):
+    user_id = session["user_id"]
+    user_to_add_id = request.form["user_to_add_id"]
+    room = rooms.get_room(room_id)
+    if room is None:
+        return redirect("/error")
+    if room.user_id != user_id:
+        return redirect("/error")
+    success = rooms.add_admin(user_to_add_id, room_id)
+    if not success:
+        return redirect("/error")
+    return redirect("/rooms/" + room_id + "/settings")
+
 @app.route("/rooms", methods=["POST"])
 def post_room():
     name = request.form["name"]

@@ -21,6 +21,20 @@ def get_rooms_by_user(user_id):
     )
     return result.fetchall()
 
+def add_admin(user_id, room_id):
+    try:
+        db.session.execute(
+            "INSERT INTO room_admins (user_id, room_id) "
+            + "VALUES (:user_id, :room_id)",
+            {
+                "user_id": user_id,
+                "room_id": room_id
+            }
+        )
+        db.session.commit()
+        return True
+    except:
+        return False
 
 def create_room(name, description, status, user_id):
     try:
