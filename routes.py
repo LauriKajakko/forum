@@ -12,14 +12,7 @@ def index():
 
 @app.route("/error")
 def error():
-    error_type = request.args.get("type")
-    if error_type == "password_match":
-        message = "Salasana ja vahvistus eivät täsmää."
-    elif error_type == "auth_sql":
-        message = "Käyttäjänimi tai salasana ei kelvollinen."
-    else:
-        message = "Virhe."
-    return render_template("error.html", message = message)
+    return render_template("error.html", message = "Tuntematon virhe!")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -46,10 +39,10 @@ def register():
         password = request.form["password"]
         password_confim = request.form["password-confirm"]
         if password != password_confim:
-            return redirect("/error?type=password_match")
+            return redirect("/error")
         success = auth.register(username, password)
         if not success:
-            return redirect("/error?type=auth_sql")
+            return redirect("/error")
     return redirect("/")
 
 @app.route("/rooms/<room_id>", methods=["GET"])
@@ -114,10 +107,11 @@ def post_thread():
     room_id = request.form["room_id"]
     user_id = session["user_id"]
     room = rooms.get_room(room_id)
+    admin = user_id == room.user_id or users.check_admin_status(user_id, room_id)
     if room is None:
         return redirect("/error")
-    if room.user_id != user_id:
-        return redirect("/error")
+    if not admin:
+        return render_template("error.html", message = "Ei oikeuksia")
     success = threads.create_thread(name, room_id)
     if not success:
         return redirect("/error")
