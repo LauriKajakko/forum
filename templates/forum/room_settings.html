@@ -8,6 +8,10 @@
   <input type="hidden" name="room_id" value="{{ room.id }}"><br>
   <input type="submit" value="Tallenna">
 </form>
+<h3>Adminit</h3>
+{% for admin in room_admins %}
+  <div>{{ admin.username }}</div>
+{% endfor %}
 <h3>Lisää admin</h3>
 <form action="/rooms/{{ room.id }}/settings" method="GET">
   Hae käyttäjiä käyttäjänimellä: <input value="{{ search }}"" type="text" name="search"><br>

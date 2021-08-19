@@ -67,13 +67,15 @@ def one_room(room_id):
 def one_room_settings(room_id):
     search = request.args.get("search") or ""
     room = rooms.get_room(room_id)
+    room_admins = users.get_admins_by_room(room_id)
     user_results = users.get_users_like(search)
     return render_template(
         "forum/room_settings.html",
         room = room,
         admin = session["user_id"] == room.user_id,
         user_results = user_results,
-        search = search
+        search = search,
+        room_admins = room_admins
     )
 
 @app.route("/rooms/<room_id>/admins", methods=["POST"])
@@ -87,7 +89,7 @@ def admins(room_id):
         return redirect("/error")
     success = rooms.add_admin(user_to_add_id, room_id)
     if not success:
-        return redirect("/error")
+        return render_template("error.html", message="Tarkistathan onko käyttäjä jo admin")
     return redirect("/rooms/" + room_id + "/settings")
 
 @app.route("/rooms", methods=["POST"])
