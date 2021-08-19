@@ -16,6 +16,17 @@ def get_admins_by_room(room_id):
     )
     return result.fetchall()
 
+def check_admin_status(user_id, room_id):
+    result = db.session.execute(
+        "SELECT 1 FROM room_admins WHERE user_id=:user_id AND room_id=:room_id",
+        {
+            "user_id": user_id,
+            "room_id": room_id
+        }
+    )
+
+    return result.fetchone() is not None
+
 def get_users_like(search):
     if not isinstance(search, str):
         return []

@@ -54,21 +54,27 @@ def register():
 
 @app.route("/rooms/<room_id>", methods=["GET"])
 def one_room(room_id):
+    user_id = session["user_id"]
     room = rooms.get_room(room_id)
     thread_list = threads.get_threads(room_id)
+    admin = user_id == room.user_id or users.check_admin_status(user_id, room_id)
     return render_template(
         "forum/room.html",
         room = room,
-        admin = session["user_id"] == room.user_id,
+        admin = admin,
         threads = thread_list
     )
 
 @app.route("/rooms/<room_id>/settings", methods=["GET"])
 def one_room_settings(room_id):
-    search = request.args.get("search") or ""
+    user_id = session["user_id"]
     room = rooms.get_room(room_id)
-    room_admins = users.get_admins_by_room(room_id)
+    admin = user_id == room.user_id or users.check_admin_status(user_id, room_id)
+    if not admin:
+        return redirect("/error")
+    search = request.args.get("search") or ""
     user_results = users.get_users_like(search)
+    room_admins = users.get_admins_by_room(room_id)
     return render_template(
         "forum/room_settings.html",
         room = room,
