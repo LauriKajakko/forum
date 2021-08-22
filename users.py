@@ -11,7 +11,8 @@ def get_admins_by_room(room_id):
     result = db.session.execute(
         "SELECT DISTINCT users.id, users.username "
         + "FROM users LEFT JOIN room_admins "
-        + "ON room_admins.room_id=:room_id",
+        + "ON room_admins.user_id=users.id "
+        + "WHERE room_id=:room_id",
         { "room_id": room_id }
     )
     return result.fetchall()
