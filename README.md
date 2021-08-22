@@ -45,6 +45,5 @@ Create rooms with threads to message other users!
 | can initiate a thread           | yes      | no       |
 | can delete other users messages | yes      | no       |
 | can delete own messages         | yes      | yes      |
-| can mute users                  | yes      | no       |
-| can send messages to a thread   | yes      | no       |
+| can send messages to a thread   | yes      | yes       |
 
