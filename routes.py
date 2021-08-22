@@ -40,6 +40,16 @@ def register():
         password_confim = request.form["password-confirm"]
         if password != password_confim:
             return redirect("/error")
+        if len(username) < 3:
+            return render_template(
+                "error.html",
+                message="Käyttäjänimen tulee olla vähintään 3 merkkiä pitkä"
+            )
+        if len(password) < 8:
+            return render_template(
+                "error.html",
+                message="Salasanan tulee olla vähintään 8 merkkiä pitkä"
+            )
         success = auth.register(username, password)
         if not success:
             return redirect("/error")
@@ -94,7 +104,24 @@ def admins(room_id):
 @app.route("/rooms", methods=["POST"])
 def post_room():
     name = request.form["name"]
+    if len(name) > 50:
+        return render_template(
+            "error.html",
+            message="Nimi saa olla korkeintaan 50 merkkiä pitkä"
+        )
+    if len(name) < 3:
+        return render_template(
+            "error.html",
+            message="Nimen tulee olla vähintään 3 merkkiä pitkä"
+        )
+
     description = request.form["description"]
+    if len(description) > 200:
+        return render_template(
+            "error.html",
+            message="Kuvaus saa olla korkeintaan 200 merkkiä pitkä"
+        )
+    
     status = request.form["status"]
     success = rooms.create_room(name, description, status, session["user_id"])
     if not success:
@@ -104,6 +131,16 @@ def post_room():
 @app.route("/threads", methods=["POST"])
 def post_thread():
     name = request.form["name"]
+    if len(name) > 50:
+        return render_template(
+            "error.html",
+            message="Nimi saa olla korkeintaan 50 merkkiä pitkä"
+        )
+    if len(name) < 3:
+        return render_template(
+            "error.html",
+            message="Nimen tulee olla vähintään 3 merkkiä pitkä"
+        )
     room_id = request.form["room_id"]
     user_id = session["user_id"]
     room = rooms.get_room(room_id)
@@ -121,6 +158,11 @@ def post_thread():
 def post_message():
     room_id = request.form["room_id"]
     content = request.form["content"]
+    if len(content) > 200:
+        return render_template(
+            "error.html",
+            message="Viesti saa olla enintään 200 merkkiä pitkä"
+        )
     thread_id = request.form["thread_id"]
     user_id = session["user_id"]
     success = messages.create_message(content, thread_id, user_id)
