@@ -11,10 +11,9 @@ Create rooms with threads to message other users!
 2. create a room for yourself
 3. create a thread
 4. post messages
-5. do the same with another user to see how access control works 
+5. go to room settings to add admins from users list
 
 * private rooms and invitations not yet implemented
-* Also forms aren't validated in any way yet
 
 ## Features
 
@@ -38,12 +37,13 @@ Create rooms with threads to message other users!
 
 #### Users/Access control
 
-|                                 | as admin | as quest |
-| ------------------------------- | -------- | -------- |
-| can invite users                | yes      | yes      |
-| can accept users                | yes      | no       |
-| can initiate a thread           | yes      | no       |
-| can delete other users messages | yes      | no       |
-| can delete own messages         | yes      | yes      |
-| can send messages to a thread   | yes      | yes       |
+|                                 | as owner | as admin | as quest | done |
+| ------------------------------- | -------- | -------- | ------------------------------- | ------------------------------- |
+| can invite users                | yes             | yes | yes      |  |
+| can accept users                | yes             | yes      | no       |  |
+| can initiate a thread           | yes        | yes      | no       | :heavy_check_mark: |
+| can delete other users messages | yes | yes      | no       |        |
+| can delete own messages         | yes      | yes      | yes      |       |
+| can send messages to a thread   | yes | yes      | yes       | :heavy_check_mark: |
+| can add admins | yes | yes | no | :heavy_check_mark: |
 
