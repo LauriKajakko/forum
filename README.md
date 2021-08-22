@@ -28,8 +28,8 @@ Create rooms with threads to message other users!
 #### Rooms
 
 - [x] Create rooms where user becomes 'admin'
-- [ ] Add admins
-- [ ] Join rooms created by other users
+- [x] Add admins
+- [x] Send messages in rooms created by other users
 - [x] Create threads in created room
 - [x] Send messages to threads in that room
 - [ ] Search messages in threads
