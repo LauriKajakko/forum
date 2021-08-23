@@ -1,10 +1,29 @@
-<h2>Rekisteröidy</h2>
-<form action="/register" method="POST">
-<p>Tunnus:<br>
-<input type="text" name="username"></p>
-<p>Salasana:<br>
-<input type="password" name="password"></p>
-<p>Vahvista salasana:<br>
-  <input type="password" name="password-confirm"></p>
-<input type="submit" value="Rekisteröidy">
-</form>
+{% extends "./layouts/main.html" %}
+{% block title %}Kirjautuminen{% endblock %}
+{% block content %}
+{% if session.username %}
+<p>Olet kirjautunut nimellä {{ session.username }}</p>
+<a href="/logout">Kirjaudu ulos</a>
+{% else %}
+<div class="row">
+  <div class="col-8">
+    <form action="/register" method="POST">
+      <div class="form-group col-6">
+        <label for="inputUsername">Käyttäjänimi</label>
+        <input type="text" name="username" class="form-control" id="inputUsername">
+      </div>
+      <div class="form-group col-6">
+        <label for="inputPassword">Salasana</label>
+        <input type="password" name="password" class="form-control" id="inputPassword">
+      </div>
+      <div class="form-group col-6">
+        <label for="inputPassword">Salasanan vahvistus</label>
+        <input type="password" name="password-confirm" class="form-control" id="inputPassword">
+      </div>
+      <div class="form-group col-6">
+        <button type="submit" class="btn btn-primary">Rekisteröidy</button>
+      </div>
+    </form>
+  </div>
+{% endif %}
+{% endblock %}

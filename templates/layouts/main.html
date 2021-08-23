@@ -1,14 +1,33 @@
 <!doctype html>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <title>Forum - {% block title %}{% endblock %}</title>
-<h1>Forum</h1>
-<a href="/">Etusivu</a>
-{% if session.username %}
-<a href="/profile/{{ session.username }}">Profiili</a>
-<a href="/logout">Kirjaudu ulos</a>
-{% else %}
-<a href="/login">Kirjautuminen</a>
-<a href="/register">Rekisteröidy</a>
-{% endif %}
-<hr>
-{% block content %}{% endblock %}
-<hr>
+<div class="container">
+  <div class="row">
+    <div class="col-8">
+      <nav class="navbar navbar-expand-sm navbar-light">
+        <a class="navbar-brand" href="/">Forum</a>
+        <ul class="navbar-nav">
+          {% if session.username %}
+          <li class="nav-item">
+            <a class="nav-link" href="/profile/{{ session.username }}">Profiili</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Kirjaudu ulos</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Kirjaudu sisään</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/register">Rekisteröidy</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+
+      <hr>
+      {% block content %}{% endblock %}
+      <hr>
+    </div>
+  </div>
+</div>

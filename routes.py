@@ -163,6 +163,11 @@ def post_message():
             "error.html",
             message="Viesti saa olla enintään 200 merkkiä pitkä"
         )
+    if len(content) < 1:
+        return render_template(
+            "error.html",
+            message="Viesti ei saa olla tyhjä"
+        )
     thread_id = request.form["thread_id"]
     user_id = session["user_id"]
     success = messages.create_message(content, thread_id, user_id)

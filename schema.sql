@@ -4,12 +4,6 @@ CREATE TABLE IF NOT EXISTS users (
 	password_hash TEXT
 );
 
-DO $$ BEGIN
-    CREATE TYPE room_status AS ENUM ('public', 'private');
-EXCEPTION
-    WHEN duplicate_object THEN null;
-END $$;
-
 CREATE TABLE IF NOT EXISTS rooms (
   id SERIAL PRIMARY KEY,
   name TEXT,
@@ -37,11 +31,6 @@ CREATE TABLE IF NOT EXISTS messages (
   thread_id INTEGER REFERENCES threads,
   user_id INTEGER REFERENCES users,
   created_at TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS private_room_members (
-  user_id INTEGER REFERENCES users,
-  room_id INTEGER REFERENCES rooms
 );
 
 ALTER TABLE room_admins

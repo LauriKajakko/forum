@@ -1,39 +1,45 @@
 {% extends "./layouts/main.html" %}
 {% block title %}Etusivu{% endblock %}
 {% block content %}
-<h2>Etusivu</h2>
-Tervetuloa sovellukseen!
-{% if session.username %}
-Olet kirjautunut nimellä {{ session.username }}.
-<hr>
-<h4>Luo huone</h4>
-<form action="/rooms" method="POST">
-  Huoneen nimi: <input type="text" name="name"><br>
-  Huoneen kuvaus: <textarea name="description"></textarea><br>
-
-  <input type="radio" name="status" value="private">
-  <label>yksityinen</label><br>
-
-  <input type="radio" name="status" value="public">
-  <label>julkinen</label><br>
-  <input type="submit" value="Lähetä">
-</form>
-<div>
-  <h3>Julkiset huoneet</h3>
-  {% for room in rooms %}
-    <h4>{{ room.name }}</h4>
-    {{ room.description }}<br>
-    <a href="/rooms/{{ room.id }}">huoneeseen!</a>
-    Luotu: {{ room.created_at.strftime("%Y-%m-%d %H:%M:%S") }} <br>
-    {% if room.status == 'private' %}
-    <h6>Yksityinen huone</h6>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h2>Etusivu</h2>
+      Tervetuloa Forumille!
+      {% if session.username %}
+      Olet kirjautunut nimellä {{ session.username }}.
+      {% else %}
+      Kirjaudu sisään tai Rekisteröidy nähdäksesi ja luodaksesi sisältöä!
+      {% endif %}
+    </div>
+    {% if session.username %}
+    <div class="col-12">
+      <h4>Luo huone</h4>
+      <form action="/rooms" method="POST">
+        <div class="form-group col-6">
+          <label for="inputUsername">Nimi</label>
+          <input type="text" name="name" class="form-control" id="inputUsername">
+        </div>
+        <div class="form-group col-6">
+          <label for="inputUsername">Kuvaus</label>
+          <textarea type="text" name="description" class="form-control" id="inputUsername"></textarea>
+        </div>
+        <div class="form-group col-6">
+          <button type="submit" class="btn btn-primary">Tallenna</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-12">
+      <h3>Julkiset huoneet</h3>
+      {% for room in rooms %}
+        <h4>{{ room.name }}</h4>
+        {{ room.description }}<br>
+        Luotu: {{ room.created_at.strftime("%Y-%m-%d %H:%M:%S") }} <br>
+        <a href="/rooms/{{ room.id }}" class="btn btn-primary">Huoneeseen!</a>
+        <hr>
+      {% endfor %}
+    </div>
     {% endif %}
-    {% if room.status == 'public' %}
-    <h6>Julkinen huone</h6>
-    {% endif %}
-    <hr>
-  {% endfor %}
+    </div>
 </div>
-
-{% endif %}
 {% endblock %}
