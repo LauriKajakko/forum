@@ -1,4 +1,4 @@
-from flask import redirect, render_template, request, session
+from flask import redirect, render_template, request, session, abort
 from app import app
 import auth
 import users
@@ -89,6 +89,8 @@ def one_room_settings(room_id):
 
 @app.route("/rooms/<room_id>/admins", methods=["POST"])
 def admins(room_id):
+    if session["csrf_token"] != request.form["csrf_token"]:
+        return abort(403)
     user_id = session["user_id"]
     user_to_add_id = request.form["user_to_add_id"]
     room = rooms.get_room(room_id)
@@ -103,6 +105,8 @@ def admins(room_id):
 
 @app.route("/rooms", methods=["POST"])
 def post_room():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        return abort(403)
     name = request.form["name"]
     if len(name) > 50:
         return render_template(
@@ -121,15 +125,15 @@ def post_room():
             "error.html",
             message="Kuvaus saa olla korkeintaan 200 merkkiä pitkä"
         )
-    
-    status = request.form["status"]
-    success = rooms.create_room(name, description, status, session["user_id"])
+    success = rooms.create_room(name, description, session["user_id"])
     if not success:
         return redirect("/error?type=none")
     return redirect("/")
 
 @app.route("/threads", methods=["POST"])
 def post_thread():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        return abort(403)
     name = request.form["name"]
     if len(name) > 50:
         return render_template(
@@ -156,6 +160,8 @@ def post_thread():
 
 @app.route("/messages", methods=["POST"])
 def post_message():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        return abort(403)
     room_id = request.form["room_id"]
     content = request.form["content"]
     if len(content) > 200:

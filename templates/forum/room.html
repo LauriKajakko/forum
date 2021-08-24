@@ -20,6 +20,7 @@
   Viesti: <textarea name="content"></textarea><br>
   <input type="hidden" name="thread_id" value="{{ thread.id }}"><br>
   <input type="hidden" name="room_id" value="{{ room.id }}"><br>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
   <input type="submit" value="Lähetä">
 </form>
 <hr>

@@ -24,6 +24,7 @@
           <label for="inputUsername">Kuvaus</label>
           <textarea type="text" name="description" class="form-control" id="inputUsername"></textarea>
         </div>
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
         <div class="form-group col-6">
           <button type="submit" class="btn btn-primary">Tallenna</button>
         </div>

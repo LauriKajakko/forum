@@ -11,7 +11,7 @@ def get_room(room_id):
         return None
 
 def get_public_rooms():
-    result = db.session.execute("SELECT * FROM rooms WHERE status='public'")
+    result = db.session.execute("SELECT * FROM rooms")
     return result.fetchall()
 
 def get_rooms_by_user(user_id):
@@ -36,15 +36,14 @@ def add_admin(user_id, room_id):
     except:
         return False
 
-def create_room(name, description, status, user_id):
+def create_room(name, description, user_id):
     try:
         db.session.execute(
-            "INSERT INTO rooms (name, description, status, created_at, user_id) "
-            + "VALUES (:name, :description, :status, NOW(), :user_id)",
+            "INSERT INTO rooms (name, description, created_at, user_id) "
+            + "VALUES (:name, :description, NOW(), :user_id)",
             {
                 "name": name,
                 "description": description,
-                "status": status,
                 "user_id": user_id,
             }
         )
