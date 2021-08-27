@@ -2,14 +2,14 @@ from db import db
 
 def get_threads(room_id):
     result = db.session.execute(
-        "SELECT threads.*, json_agg(json_build_array(messages.content, users.username)) as messages "
-        + "FROM threads "
-        + "LEFT JOIN messages "
-        + "ON messages.thread_id=threads.id "
-        + "LEFT JOIN users "
-        + "ON messages.user_id=users.id "
+        "SELECT t.*, json_agg(json_build_array(m.content, u.username)) as messages "
+        + "FROM threads as t "
+        + "LEFT JOIN messages as m "
+        + "ON m.thread_id=t.id "
+        + "LEFT JOIN users as u "
+        + "ON m.user_id=u.id "
         + "WHERE room_id=:room_id "
-        + "GROUP BY threads.id ",
+        + "GROUP BY t.id ",
         { "room_id": room_id }
     )
     return result.fetchall()
