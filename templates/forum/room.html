@@ -10,18 +10,34 @@
 {% for thread in threads %}
 <h3>{{ thread.name }}</h3>
 {% for message in thread.messages %}
-<p>{{ message[0] or '' }}</p>
-{% if message[1] %}
-~ {{ message[1] }}
-{% endif %}
-<br>
+<div class="col-12">
+  <div
+    style="
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    "
+  >
+    <div style="flex: 3;">
+      <p>{{ message[0] or '' }}</p>
+    </div>
+    {% if message[1] %}
+    <div style="flex: 1;">{{ message[1] }}</div>
+    {% endif %}
+    <br>
+  </div>
+</div>
+<hr>
 {% endfor %}
 <form action="/messages" method="POST">
-  Viesti: <textarea name="content"></textarea><br>
+  <div class="form-group col-6">
+    <label for="content">Viesti</label>
+    <textarea type="text" name="content" class="form-control" id="inputUsername"></textarea>
+  </div>
   <input type="hidden" name="thread_id" value="{{ thread.id }}"><br>
   <input type="hidden" name="room_id" value="{{ room.id }}"><br>
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-  <input type="submit" value="Lähetä">
+  <input type="submit" value="Lähetä" class="btn btn-primary">
 </form>
 <hr>
 {% endfor %}

@@ -1,32 +1,48 @@
 {% extends "layouts/main.html" %}
 {% block title %}{{ room.name }}{% endblock %}
 {% block content %}
-<h1>{{ room.name }}</h1>
+<h1 style="text-align: center;">{{ room.name }}</h1>
+<hr>
 <h3>Luo uusi lanka</h3>
 <form action="/threads" method="POST">
-  Langan nimi: <input type="text" name="name"><br>
+  <div class="form-group col-6">
+    <label for="inputName">Nimi</label>
+    <input type="text" name="name" class="form-control" id="inputName">
+  </div>
   <input type="hidden" name="room_id" value="{{ room.id }}"><br>
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-  <input type="submit" value="Tallenna">
+  <input type="submit" value="Tallenna" class="btn btn-primary">
 </form>
+<hr>
 <h3>Adminit</h3>
 {% for admin in room_admins %}
-  <div>{{ admin.username }}</div>
+  <h3>{{ admin.username }}</h3>
 {% endfor %}
+<hr>
 <h3>Lisää admin</h3>
 <form action="/rooms/{{ room.id }}/settings" method="GET">
   Hae käyttäjiä käyttäjänimellä: <input value="{{ search }}"" type="text" name="search"><br>
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-  <input type="submit" value="Hae">
+  <input type="submit" value="Hae" class="btn btn-primary">
 </form>
+
 <div>
   {% for user in user_results %}
-    <div>{{ user.username }} 
-    <form action="/rooms/{{ room.id }}/admins" method="POST">
-      <input type="hidden" name="user_to_add_id" value="{{ user.id }}">
-      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-      <input type="submit" value="Lisää">
-    </form>
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding-bottom: 10px;
+      "
+    >
+      <h3>{{ user.username }}</h3> 
+      <form action="/rooms/{{ room.id }}/admins" method="POST">
+        <input type="hidden" name="user_to_add_id" value="{{ user.id }}">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        <input type="submit" value="Lisää" class="btn btn-primary">
+      </form>
+    </div>
   {% endfor %}
 </div>
 {% endblock %}
