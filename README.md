@@ -20,7 +20,6 @@ Create rooms with threads to message other users!
 #### Main page
 
 - [x] Browse rooms created by other users
-- [ ] Send request to join a room
 - [x] Create a new room
 - [ ] Search rooms
 
