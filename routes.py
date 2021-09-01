@@ -68,6 +68,21 @@ def one_room(room_id):
         threads = thread_list
     )
 
+@app.route("/rooms/<room_id>/delete", methods=["POST"])
+def delete_room(room_id):
+    if session["csrf_token"] != request.form["csrf_token"]:
+        return abort(403)
+    user_id = session["user_id"]
+    room = rooms.get_room(room_id)
+    if room.user_id != user_id:
+        return render_template("error.html", message="Et omista huonetta")
+    success = rooms.delete_room(room_id)
+    if not success:
+        return render_template("error.html", message="Virhe poistaessa huonetta")
+    return redirect("/")
+
+
+
 @app.route("/rooms/<room_id>/settings", methods=["GET"])
 def one_room_settings(room_id):
     user_id = session["user_id"]

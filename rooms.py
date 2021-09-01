@@ -51,3 +51,14 @@ def create_room(name, description, user_id):
     except:
         return False
     return True
+
+def delete_room(room_id):
+    try:
+        db.session.execute(
+            "DELETE FROM rooms WHERE id=:room_id",
+            { "room_id": room_id }
+        )
+        db.session.commit()
+        return True
+    except:
+        return False
