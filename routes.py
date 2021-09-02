@@ -173,7 +173,7 @@ def post_thread():
     success = threads.create_thread(name, room_id)
     if not success:
         return redirect("/error")
-    return redirect("/rooms/" + str(room.id))
+    return redirect("/rooms/" + str(room.id) + "/0")
 
 @app.route("/messages", methods=["POST"])
 def post_message():
