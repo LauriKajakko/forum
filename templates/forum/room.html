@@ -7,6 +7,13 @@
 {% endif %}
 <hr>
 <h2>Langat</h2>
+{% if skips != 0 %}
+<a href="/rooms/{{ room.id }}/{{ skips-1 }}" class="btn btn-primary">Edellinen lanka!</a>
+{% endif %}
+{% if skips+1 != threads[0].count %}
+<a href="/rooms/{{ room.id }}/{{ skips+1 }}" class="btn btn-primary">Seuraava lanka!</a>
+{% endif %}
+<p>{{ skips + 1 }}/{{ threads[0].count }}</p>
 {% for thread in threads %}
 <h3>{{ thread.name }}</h3>
 {% for message in thread.messages %}

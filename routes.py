@@ -55,17 +55,19 @@ def register():
             return redirect("/error")
     return redirect("/")
 
-@app.route("/rooms/<room_id>", methods=["GET"])
-def one_room(room_id):
+@app.route("/rooms/<room_id>/<skips>", methods=["GET"])
+def one_room(room_id, skips):
     user_id = session["user_id"]
     room = rooms.get_room(room_id)
-    thread_list = threads.get_threads(room_id)
+    thread_list = threads.get_threads(room_id, skips)
+    print(thread_list)
     admin = user_id == room.user_id or users.check_admin_status(user_id, room_id)
     return render_template(
         "forum/room.html",
         room = room,
         admin = admin,
-        threads = thread_list
+        threads = thread_list,
+        skips = int(skips)
     )
 
 @app.route("/rooms/<room_id>/delete", methods=["POST"])

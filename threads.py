@@ -1,16 +1,18 @@
 from db import db
 
-def get_threads(room_id):
+def get_threads(room_id, skips):
     result = db.session.execute(
-        "SELECT t.*, json_agg(json_build_array(m.content, u.username)) as messages "
+        "SELECT t.id, t.name, (SELECT COUNT(id) FROM threads WHERE room_id=:room_id) as count, json_agg(json_build_array(m.content, u.username)) as messages "
         + "FROM threads as t "
         + "LEFT JOIN messages as m "
         + "ON m.thread_id=t.id "
         + "LEFT JOIN users as u "
         + "ON m.user_id=u.id "
         + "WHERE room_id=:room_id "
-        + "GROUP BY t.id ",
-        { "room_id": room_id }
+        + "GROUP BY t.id "
+        + "OFFSET :skips "
+        + "LIMIT 1 ",
+        { "room_id": room_id, "skips": skips }
     )
     return result.fetchall()
 
