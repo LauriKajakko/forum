@@ -8,7 +8,6 @@ CREATE TABLE IF NOT EXISTS rooms (
   id SERIAL PRIMARY KEY,
   name TEXT,
   description TEXT,
-  status ROOM_STATUS,
   created_at TIMESTAMP,
   user_id INTEGER REFERENCES users
 );
@@ -34,6 +33,5 @@ CREATE TABLE IF NOT EXISTS messages (
 );
 
 ALTER TABLE room_admins
-DROP CONSTRAINT no_duplicate_admins,
 ADD CONSTRAINT no_duplicate_admins
   UNIQUE (user_id, room_id);

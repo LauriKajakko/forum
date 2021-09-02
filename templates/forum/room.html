@@ -6,47 +6,48 @@
 <a href="/rooms/{{ room.id }}/settings">Huoneen asetukset</a>
 {% endif %}
 <hr>
-<h2>Langat</h2>
-{% if skips != 0 %}
-<a href="/rooms/{{ room.id }}/{{ skips-1 }}" class="btn btn-primary">Edellinen lanka!</a>
-{% endif %}
-{% if skips+1 != threads[0].count %}
-<a href="/rooms/{{ room.id }}/{{ skips+1 }}" class="btn btn-primary">Seuraava lanka!</a>
-{% endif %}
-<p>{{ skips + 1 }}/{{ threads[0].count }}</p>
-{% for thread in threads %}
-<h3>{{ thread.name }}</h3>
-{% for message in thread.messages %}
-<div class="col-12">
-  <div
-    style="
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-    "
-  >
-    <div style="flex: 3;">
-      <p>{{ message[0] or '' }}</p>
+{% if threads %}
+  <h2>Langat</h2>
+  {% if skips != 0 %}
+  <a href="/rooms/{{ room.id }}/{{ skips-1 }}" class="btn btn-primary">Edellinen lanka!</a>
+  {% endif %}
+  {% if skips+1 != threads[0].count %}
+  <a href="/rooms/{{ room.id }}/{{ skips+1 }}" class="btn btn-primary">Seuraava lanka!</a>
+  {% endif %}
+  <p>{{ skips + 1 }}/{{ threads[0].count }}</p>
+  {% for thread in threads %}
+  <h3>{{ thread.name }}</h3>
+  {% for message in thread.messages %}
+  <div class="col-12">
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      "
+    >
+      <div style="flex: 3;">
+        <p>{{ message[0] or '' }}</p>
+      </div>
+      {% if message[1] %}
+      <div style="flex: 1;">{{ message[1] }}</div>
+      {% endif %}
+      <br>
     </div>
-    {% if message[1] %}
-    <div style="flex: 1;">{{ message[1] }}</div>
-    {% endif %}
-    <br>
   </div>
-</div>
-<hr>
-{% endfor %}
-<form action="/messages" method="POST">
-  <div class="form-group col-6">
-    <label for="content">Viesti</label>
-    <textarea type="text" name="content" class="form-control" id="inputUsername"></textarea>
-  </div>
-  <input type="hidden" name="thread_id" value="{{ thread.id }}"><br>
-  <input type="hidden" name="room_id" value="{{ room.id }}"><br>
-  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-  <input type="submit" value="Lähetä" class="btn btn-primary">
-</form>
-<hr>
-{% endfor %}
-
+  <hr>
+  {% endfor %}
+  <form action="/messages" method="POST">
+    <div class="form-group col-6">
+      <label for="content">Viesti</label>
+      <textarea type="text" name="content" class="form-control" id="inputUsername"></textarea>
+    </div>
+    <input type="hidden" name="thread_id" value="{{ thread.id }}"><br>
+    <input type="hidden" name="room_id" value="{{ room.id }}"><br>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <input type="submit" value="Lähetä" class="btn btn-primary">
+  </form>
+  <hr>
+  {% endfor %}
+{% endif %}
 {% endblock %}

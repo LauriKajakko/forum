@@ -2,7 +2,8 @@ from db import db
 
 def get_threads(room_id, skips):
     result = db.session.execute(
-        "SELECT t.id, t.name, (SELECT COUNT(id) FROM threads WHERE room_id=:room_id) as count, json_agg(json_build_array(m.content, u.username)) as messages "
+        "SELECT t.id, t.name, json_agg(json_build_array(m.content, u.username)) as messages, "
+        + "(SELECT COUNT(id) FROM threads WHERE room_id=:room_id) as count "
         + "FROM threads as t "
         + "LEFT JOIN messages as m "
         + "ON m.thread_id=t.id "
