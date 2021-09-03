@@ -43,6 +43,7 @@
       <textarea type="text" name="content" class="form-control" id="inputUsername"></textarea>
     </div>
     <input type="hidden" name="thread_id" value="{{ thread.id }}"><br>
+    <input type="hidden" name="skips" value="{{ skips }}"><br>
     <input type="hidden" name="room_id" value="{{ room.id }}"><br>
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="submit" value="Lähetä" class="btn btn-primary">

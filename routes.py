@@ -1,3 +1,4 @@
+import re
 from flask import redirect, render_template, request, session, abort
 from app import app
 import auth
@@ -196,7 +197,8 @@ def post_message():
     success = messages.create_message(content, thread_id, user_id)
     if not success:
         return redirect("/error")
-    return redirect("/rooms/" + room_id)
+    skips = request.form["skips"]
+    return redirect("/rooms/" + room_id + "/" + skips)
 
 @app.route("/profile/<username>", methods=["GET"])
 def profile(username):
