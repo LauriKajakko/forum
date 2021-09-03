@@ -15,7 +15,7 @@
     {% if session.username %}
     <div class="col-12">
       <h4>Luo huone</h4>
-      <form action="/rooms" method="POST">
+      <form action="/rooms" method="POST" onsubmit="return check(this)">
         <div class="form-group col-6">
           <label for="inputUsername">Nimi</label>
           <input type="text" name="name" class="form-control" id="inputUsername">
@@ -43,4 +43,22 @@
     {% endif %}
     </div>
 </div>
+<script>
+  function check(form) {
+    console.log(form);
+      if (form.name.value.length < 3) {
+          alert("Nimen tulee olla vähintään 3 merkkiä pitkä");
+          return false;
+      }
+      if (form.name.value.length > 50) {
+          alert("Nimi saa olla korkeintaan 50 merkkiä pitkä");
+          return false;
+      }
+      if (form.description.value.length > 200) {
+          alert("Kuvaus saa olla korkeintaan 200 merkkiä pitkä");
+          return false;
+      }
+      return true;
+  }
+</script>
 {% endblock %}

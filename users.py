@@ -25,7 +25,6 @@ def check_admin_status(user_id, room_id):
             "room_id": room_id
         }
     )
-
     return result.fetchone() is not None
 
 def get_users_like(search):

@@ -40,11 +40,16 @@ def register():
         password = request.form["password"]
         password_confim = request.form["password-confirm"]
         if password != password_confim:
-            return redirect("/error")
+            return render_template("error.html", message="salasanan vahvistus ei täsmää")
         if len(username) < 3:
             return render_template(
                 "error.html",
                 message="Käyttäjänimen tulee olla vähintään 3 merkkiä pitkä"
+            )
+        if len(username) > 20:
+            return render_template(
+                "error.html",
+                message="Käyttäjänimen tulee olla enintään 20 merkkiä pitkä"
             )
         if len(password) < 8:
             return render_template(
@@ -163,6 +168,11 @@ def post_thread():
             "error.html",
             message="Nimen tulee olla vähintään 3 merkkiä pitkä"
         )
+    if len(name.strip()) < 1:
+        return render_template(
+            "error.html",
+            message="Nimi ei saa olla tyhjä"
+        )
     room_id = request.form["room_id"]
     user_id = session["user_id"]
     room = rooms.get_room(room_id)
@@ -187,7 +197,7 @@ def post_message():
             "error.html",
             message="Viesti saa olla enintään 200 merkkiä pitkä"
         )
-    if len(content) < 1:
+    if len(content.strip()) < 1:
         return render_template(
             "error.html",
             message="Viesti ei saa olla tyhjä"

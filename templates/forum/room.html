@@ -37,7 +37,7 @@
   </div>
   <hr>
   {% endfor %}
-  <form action="/messages" method="POST">
+  <form action="/messages" method="POST" onsubmit="return check(this)">
     <div class="form-group col-6">
       <label for="content">Viesti</label>
       <textarea type="text" name="content" class="form-control" id="inputUsername"></textarea>
@@ -53,4 +53,17 @@
 {% else %}
 <h3>Ei vielä lankoja</h3>
 {% endif %}
+<script>
+  function check(form) {
+      if (form.content.value.trim().length < 1) {
+          alert("Viesti ei saa olla tyhjä");
+          return false;
+      }
+      if (form.content.value.length > 200) {
+          alert("Viesti saa olla korkeintaan 200 merkkiä pitkä");
+          return false;
+      }
+      return true;
+  }
+</script>
 {% endblock %}

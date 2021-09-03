@@ -7,7 +7,7 @@
 {% else %}
 <div class="row">
   <div class="col-8">
-    <form action="/register" method="POST">
+    <form action="/register" method="POST" onsubmit="return check(this)">
       <div class="form-group col-6">
         <label for="inputUsername">Käyttäjänimi</label>
         <input type="text" name="username" class="form-control" id="inputUsername">
@@ -26,4 +26,29 @@
     </form>
   </div>
 {% endif %}
+<script>
+  function check(form) {
+      if (form.username.value.trim().length < 1) {
+          alert("Käyttäjänimi ei saa olla tyhjä");
+          return false;
+      }
+      if (form.username.value.length < 3) {
+          alert("Käyttäjänimen pitää olla vähintään 3 merkkiä pitkä");
+          return false;
+      }
+      if (form.username.value.length > 20) {
+          alert("Käyttäjänimen pitää olla enintään 20 merkkiä pitkä");
+          return false;
+      }
+      if (form.password.value.length < 8) {
+          alert("Salasanan tulee olla vähintään 8 merkkiä");
+          return false;
+      }
+      if (form.password.value !== form["password-confirm"].value) {
+          alert("Salasanan vahvistus ei täsmää");
+          return false;
+      }
+      return true;
+  }
+</script>
 {% endblock %}

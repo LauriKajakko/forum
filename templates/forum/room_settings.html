@@ -4,7 +4,7 @@
 <h1 style="text-align: center;">{{ room.name }}</h1>
 <hr>
 <h3>Luo uusi lanka</h3>
-<form action="/threads" method="POST">
+<form action="/threads" method="POST" onsubmit="return checkThread(this)">
   <div class="form-group col-6">
     <label for="inputName">Nimi</label>
     <input type="text" name="name" class="form-control" id="inputName">
@@ -50,4 +50,21 @@
     </div>
   {% endfor %}
 </div>
+<script>
+  function checkThread(form) {
+      if (form.name.value.trim().length < 1) {
+          alert("Nimi ei saa olla tyhjä");
+          return false;
+      }
+      if (form.name.value.length < 3) {
+          alert("Nimen pitää olla vähintään 3 merkkiä pitkä");
+          return false;
+      }
+      if (form.name.value.length > 50) {
+          alert("Nimi saa olla korkeintaan 50 merkkiä pitkä");
+          return false;
+      }
+      return true;
+  }
+</script>
 {% endblock %}
