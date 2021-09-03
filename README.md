@@ -32,7 +32,7 @@ Create rooms with threads to message other users!
 - [x] Send messages to threads in that room
 - [ ] Search messages in threads
 - [ ] (Room wide message search)
-- [ ] (Server side pagination and filters)
+- [x] (Server side pagination and filters)
 
 #### Users/Access control
 
