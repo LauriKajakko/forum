@@ -41,6 +41,19 @@
         <hr>
       {% endfor %}
     </div>
+    {% if skips != 0 %}
+    <a href="/{{ skips-1 }}" class="btn btn-primary">Edellinen</a>
+    {% endif %}
+    {% if rooms_count >= (skips+1)*5 %}
+    <a href="/{{ skips+1 }}" class="btn btn-primary">Seuraava</a>
+    {% endif %}
+    <div>
+      {{ (skips * 5) + 1 }}
+       - 
+      {{ (skips+1) * 5 if rooms_count >= (skips+1)*5 else rooms_count}}
+       / 
+      {{ rooms_count }}
+    </div>
     {% endif %}
     </div>
 </div>

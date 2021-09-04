@@ -9,7 +9,16 @@ import messages
 
 @app.route("/")
 def index():
-    return render_template("index.html", rooms = rooms.get_rooms())
+    return redirect("/0")
+
+@app.route("/<skips>")
+def frontpage(skips):
+    return render_template(
+        "index.html",
+        rooms = rooms.get_rooms(int(skips)),
+        rooms_count = rooms.get_rooms_count(),
+        skips = int(skips)
+    )
 
 @app.route("/error")
 def error():

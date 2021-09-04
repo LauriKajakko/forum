@@ -10,13 +10,24 @@ def get_room(room_id):
     except:
         return None
 
-def get_rooms():
+def get_rooms_count():
     result = db.session.execute(
-        "SELECT r.id, r.name, r.description, r.created_at, COUNT(t.id) as thread_count "
+        "SELECT COUNT(id) "
+        + "FROM rooms"
+    )
+    return result.fetchone()[0]
+
+def get_rooms(skips):
+    result = db.session.execute(
+        "SELECT r.id, r.name, r.description, r.created_at, "
+        + "COUNT(t.id) as thread_count "
         + "FROM rooms as r "
         + "LEFT JOIN threads as t "
         + "ON (t.room_id=r.id) "
-        + "GROUP BY r.id"
+        + "GROUP BY r.id "
+        + "OFFSET :skips "
+        + "LIMIT 5 ",
+        { "skips": skips * 5 }
     )
     return result.fetchall()
 
