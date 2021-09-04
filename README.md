@@ -21,7 +21,6 @@ Create rooms with threads to message other users!
 
 - [x] Browse rooms created by other users
 - [x] Create a new room
-- [ ] Search rooms
 
 #### Rooms
 
@@ -30,16 +29,18 @@ Create rooms with threads to message other users!
 - [x] Send messages in rooms created by other users
 - [x] Create threads in created room
 - [x] Send messages to threads in that room
-- [ ] Search messages in threads
-- [ ] (Room wide message search)
-- [x] (Server side pagination and filters)
+- [x] Search users in rooms settings
+- [x] (Server side pagination)
+
+#### Profile page
+- [x] Stats of messages, rooms etc.
+- [ ] Links to rooms
+
 
 #### Users/Access control
 
 |                                 | as owner | as admin | as quest | done |
 | ------------------------------- | -------- | -------- | ------------------------------- | ------------------------------- |
-| can invite users                | yes             | yes | yes      |  |
-| can accept users                | yes             | yes      | no       |  |
 | can initiate a thread           | yes        | yes      | no       | :heavy_check_mark: |
 | can delete other users messages | yes | yes      | no       |        |
 | can delete own messages         | yes      | yes      | yes      |       |
