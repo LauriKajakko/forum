@@ -9,7 +9,7 @@ import messages
 
 @app.route("/")
 def index():
-    return render_template("index.html", rooms = rooms.get_public_rooms())
+    return render_template("index.html", rooms = rooms.get_rooms())
 
 @app.route("/error")
 def error():

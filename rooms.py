@@ -10,8 +10,14 @@ def get_room(room_id):
     except:
         return None
 
-def get_public_rooms():
-    result = db.session.execute("SELECT * FROM rooms")
+def get_rooms():
+    result = db.session.execute(
+        "SELECT r.id, r.name, r.description, r.created_at, COUNT(t.id) as thread_count "
+        + "FROM rooms as r "
+        + "LEFT JOIN threads as t "
+        + "ON (t.room_id=r.id) "
+        + "GROUP BY r.id"
+    )
     return result.fetchall()
 
 def get_rooms_by_user(user_id):
