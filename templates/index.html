@@ -44,13 +44,13 @@
     {% if skips != 0 %}
     <a href="/{{ skips-1 }}" class="btn btn-primary">Edellinen</a>
     {% endif %}
-    {% if rooms_count >= (skips+1)*5 %}
-    <a href="/{{ skips+1 }}" class="btn btn-primary">Seuraava</a>
+    {% if rooms_count >= (skips + 1) * 5 %}
+    <a href="/{{ skips + 1 }}" class="btn btn-primary">Seuraava</a>
     {% endif %}
     <div>
       {{ (skips * 5) + 1 }}
        - 
-      {{ (skips+1) * 5 if rooms_count >= (skips+1)*5 else rooms_count}}
+      {{ (skips + 1) * 5 if rooms_count >= (skips + 1) * 5 else rooms_count}}
        / 
       {{ rooms_count }}
     </div>
@@ -59,7 +59,6 @@
 </div>
 <script>
   function check(form) {
-    console.log(form);
       if (form.name.value.length < 3) {
           alert("Nimen tulee olla vähintään 3 merkkiä pitkä");
           return false;
