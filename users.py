@@ -2,7 +2,19 @@ from db import db
 
 def get_user_by_username(username):
     result = db.session.execute(
-        "SELECT * FROM users WHERE username=:username",
+        "SELECT u.id, u.username, "
+        + "COUNT(DISTINCT m.id) as message_count, "
+        + "COUNT(DISTINCT r.id) as room_count, "
+        + "COUNT(DISTINCT ra.room_id) as admin_count "
+        + "FROM users as u "
+        + "LEFT JOIN messages as m "
+        + "ON m.user_id=u.id "
+        + "LEFT JOIN rooms as r "
+        + "ON r.user_id=u.id "
+        + "LEFT JOIN room_admins as ra "
+        + "ON ra.user_id=u.id "
+        + "WHERE username=:username "
+        + "GROUP BY u.id",
         { "username": username }
     )
     return result.fetchone()

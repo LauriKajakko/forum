@@ -2,4 +2,7 @@
 {% block title %}Käyttäjän {{ user.username }} profiili{% endblock %}
 {% block content %}
 <h1>Käyttäjän {{ user.username }} profiili</h1>
+Lähetetyt viestit: {{ user.message_count }}
+Luodut huonteet: {{ user.room_count }}
+Admin statuksia: {{ user.admin_count }} 
 {% endblock %}
