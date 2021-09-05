@@ -3,7 +3,7 @@
 # https://tsoha---forum.herokuapp.com/
 
 ## Overview
-Create rooms with threads to message other users!
+This is a project for a [course](https://hy-tsoha.github.io/materiaali/) focusing on learning to use SQL using postgres and python with flask.
 
 ## Instructions
 
@@ -13,14 +13,13 @@ Create rooms with threads to message other users!
 4. post messages
 5. go to room settings to add admins from users list
 
-* private rooms and invitations not yet implemented
-
 ## Features
 
 #### Main page
 
 - [x] Browse rooms created by other users
 - [x] Create a new room
+- [x] Pagination on rooms
 
 #### Rooms
 
@@ -30,20 +29,18 @@ Create rooms with threads to message other users!
 - [x] Create threads in created room
 - [x] Send messages to threads in that room
 - [x] Search users in rooms settings
-- [x] (Server side pagination)
+- [x] Server side pagination on threads
 
 #### Profile page
 - [x] Stats of messages, rooms etc.
-- [ ] Links to rooms
 
 
 #### Users/Access control
 
-|                                 | as owner | as admin | as quest | done |
-| ------------------------------- | -------- | -------- | ------------------------------- | ------------------------------- |
-| can initiate a thread           | yes        | yes      | no       | :heavy_check_mark: |
-| can delete other users messages | yes | yes      | no       |        |
-| can delete own messages         | yes      | yes      | yes      |       |
-| can send messages to a thread   | yes | yes      | yes       | :heavy_check_mark: |
-| can add admins | yes | yes | no | :heavy_check_mark: |
+|                                 | as owner | as admin | as quest | 
+| ------------------------------- | -------- | -------- | ------------------------------- | 
+| can initiate a thread           | yes        | yes      | no       | 
+| can delete room | yes | yes      | no       |        |
+| can send messages to a thread   | yes | yes      | yes       | 
+| can add admins | yes | yes | no | 
 
