@@ -20,7 +20,7 @@ def get_rooms_count():
 def get_rooms(skips):
     result = db.session.execute(
         "SELECT r.id, r.name, r.description, r.created_at, "
-        + "COUNT(t.id) as thread_count "
+        + "COUNT(DISTINCT t.id) as thread_count "
         + "FROM rooms as r "
         + "LEFT JOIN threads as t "
         + "ON (t.room_id=r.id) "
