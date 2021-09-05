@@ -1,4 +1,3 @@
-import re
 from flask import redirect, render_template, request, session, abort
 from app import app
 import auth
@@ -7,22 +6,25 @@ import rooms
 import threads
 import messages
 
+
 @app.route("/")
 def index():
     return redirect("/0")
+
 
 @app.route("/<skips>")
 def frontpage(skips):
     return render_template(
         "index.html",
-        rooms = rooms.get_rooms(int(skips)),
-        rooms_count = rooms.get_rooms_count(),
-        skips = int(skips)
+        rooms=rooms.get_rooms(int(skips)),
+        rooms_count=rooms.get_rooms_count(),
+        skips=int(skips)
     )
+
 
 @app.route("/error")
 def error():
-    return render_template("error.html", message = "Tuntematon virhe!")
+    return render_template("error.html", message="Tuntematon virhe!")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -35,10 +37,12 @@ def login():
             return redirect("/")
     return redirect("/")
 
+
 @app.route("/logout")
 def logout():
     del session["username"]
     return redirect("/")
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -49,7 +53,8 @@ def register():
         password = request.form["password"]
         password_confim = request.form["password-confirm"]
         if password != password_confim:
-            return render_template("error.html", message="salasanan vahvistus ei täsmää")
+            return render_template(
+                "error.html", message="salasanan vahvistus ei täsmää")
         if len(username) < 3:
             return render_template(
                 "error.html",
@@ -70,20 +75,23 @@ def register():
             return redirect("/error")
     return redirect("/")
 
+
 @app.route("/rooms/<room_id>/<skips>", methods=["GET"])
 def one_room(room_id, skips):
     user_id = session["user_id"]
     room = rooms.get_room(room_id)
     thread_list = threads.get_threads(room_id, skips)
     print(thread_list)
-    admin = user_id == room.user_id or users.check_admin_status(user_id, room_id)
+    admin = user_id == room.user_id or users.check_admin_status(
+        user_id, room_id)
     return render_template(
         "forum/room.html",
-        room = room,
-        admin = admin,
-        threads = thread_list,
-        skips = int(skips)
+        room=room,
+        admin=admin,
+        threads=thread_list,
+        skips=int(skips)
     )
+
 
 @app.route("/rooms/<room_id>/delete", methods=["POST"])
 def delete_room(room_id):
@@ -95,16 +103,18 @@ def delete_room(room_id):
         return render_template("error.html", message="Et omista huonetta")
     success = rooms.delete_room(room_id)
     if not success:
-        return render_template("error.html", message="Virhe poistaessa huonetta")
+        return render_template(
+            "error.html",
+            message="Virhe poistaessa huonetta")
     return redirect("/")
-
 
 
 @app.route("/rooms/<room_id>/settings", methods=["GET"])
 def one_room_settings(room_id):
     user_id = session["user_id"]
     room = rooms.get_room(room_id)
-    admin = user_id == room.user_id or users.check_admin_status(user_id, room_id)
+    admin = user_id == room.user_id or users.check_admin_status(
+        user_id, room_id)
     if not admin:
         return redirect("/error")
     search = request.args.get("search") or ""
@@ -112,12 +122,13 @@ def one_room_settings(room_id):
     room_admins = users.get_admins_by_room(room_id)
     return render_template(
         "forum/room_settings.html",
-        room = room,
-        admin = session["user_id"] == room.user_id,
-        user_results = user_results,
-        search = search,
-        room_admins = room_admins
+        room=room,
+        admin=session["user_id"] == room.user_id,
+        user_results=user_results,
+        search=search,
+        room_admins=room_admins
     )
+
 
 @app.route("/rooms/<room_id>/admins", methods=["POST"])
 def admins(room_id):
@@ -132,8 +143,10 @@ def admins(room_id):
         return redirect("/error")
     success = rooms.add_admin(user_to_add_id, room_id)
     if not success:
-        return render_template("error.html", message="Tarkistathan onko käyttäjä jo admin")
+        return render_template("error.html",
+                               message="Tarkistathan onko käyttäjä jo admin")
     return redirect("/rooms/" + room_id + "/settings")
+
 
 @app.route("/rooms", methods=["POST"])
 def post_room():
@@ -162,6 +175,7 @@ def post_room():
         return redirect("/error?type=none")
     return redirect("/")
 
+
 @app.route("/threads", methods=["POST"])
 def post_thread():
     if session["csrf_token"] != request.form["csrf_token"]:
@@ -185,15 +199,17 @@ def post_thread():
     room_id = request.form["room_id"]
     user_id = session["user_id"]
     room = rooms.get_room(room_id)
-    admin = user_id == room.user_id or users.check_admin_status(user_id, room_id)
+    admin = user_id == room.user_id or users.check_admin_status(
+        user_id, room_id)
     if room is None:
         return redirect("/error")
     if not admin:
-        return render_template("error.html", message = "Ei oikeuksia")
+        return render_template("error.html", message="Ei oikeuksia")
     success = threads.create_thread(name, room_id)
     if not success:
         return redirect("/error")
     return redirect("/rooms/" + str(room.id) + "/0")
+
 
 @app.route("/messages", methods=["POST"])
 def post_message():
@@ -219,9 +235,10 @@ def post_message():
     skips = request.form["skips"]
     return redirect("/rooms/" + room_id + "/" + skips)
 
+
 @app.route("/profile/<username>", methods=["GET"])
 def profile(username):
     user = users.get_user_by_username(username)
     if user is None:
         return redirect("/error")
-    return render_template("profile.html", user = user)
+    return render_template("profile.html", user=user)

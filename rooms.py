@@ -1,14 +1,16 @@
 from db import db
 
+
 def get_room(room_id):
     try:
         result = db.session.execute(
             "SELECT * FROM rooms WHERE id=:id",
-            { "id": room_id }
+            {"id": room_id}
         )
         return result.fetchone()
     except:
         return None
+
 
 def get_rooms_count():
     result = db.session.execute(
@@ -16,6 +18,7 @@ def get_rooms_count():
         + "FROM rooms"
     )
     return result.fetchone()[0]
+
 
 def get_rooms(skips):
     result = db.session.execute(
@@ -28,16 +31,18 @@ def get_rooms(skips):
         + "ORDER BY r.created_at DESC "
         + "OFFSET :skips "
         + "LIMIT 5 ",
-        { "skips": skips * 5 }
+        {"skips": skips * 5}
     )
     return result.fetchall()
+
 
 def get_rooms_by_user(user_id):
     result = db.session.execute(
         "SELECT * FROM rooms WHERE user_id=:user_id",
-        { "user_id": user_id }
+        {"user_id": user_id}
     )
     return result.fetchall()
+
 
 def add_admin(user_id, room_id):
     try:
@@ -53,6 +58,7 @@ def add_admin(user_id, room_id):
         return True
     except:
         return False
+
 
 def create_room(name, description, user_id):
     try:
@@ -70,11 +76,12 @@ def create_room(name, description, user_id):
         return False
     return True
 
+
 def delete_room(room_id):
     try:
         db.session.execute(
             "DELETE FROM rooms WHERE id=:room_id",
-            { "room_id": room_id }
+            {"room_id": room_id}
         )
         db.session.commit()
         return True

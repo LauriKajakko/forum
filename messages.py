@@ -1,5 +1,6 @@
 from db import db
 
+
 def create_message(content, thread_id, user_id):
     try:
         db.session.execute(
