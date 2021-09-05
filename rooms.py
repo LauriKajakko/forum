@@ -25,6 +25,7 @@ def get_rooms(skips):
         + "LEFT JOIN threads as t "
         + "ON (t.room_id=r.id) "
         + "GROUP BY r.id "
+        + "ORDER BY r.created_at DESC "
         + "OFFSET :skips "
         + "LIMIT 5 ",
         { "skips": skips * 5 }
