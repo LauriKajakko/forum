@@ -1,7 +1,5 @@
 # Forum
 
-# https://tsoha---forum.herokuapp.com/
-
 ## Overview
 This is a project for a [course](https://hy-tsoha.github.io/materiaali/) focusing on learning to use SQL using postgres and python with flask.
 
